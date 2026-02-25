@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to Register</title>
+    <meta http-equiv="refresh" content="0; url=/register/">
+    <link rel="stylesheet" href="{% static 'auth.css' %}">
+</head>
+<body>
+    <p>If you are not redirected automatically, <a href="/register/">click here to open Register</a>.</p>
+    <script>
+        // Fallback redirect for browsers that ignore meta refresh
+        window.location.replace('/register/');
+    </script>
+</body>
+</html>

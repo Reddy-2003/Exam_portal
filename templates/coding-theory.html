@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Stack Development - Assignment Platform</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body oncopy="return false;" onpaste="return false;" oncut="return false;" oncontextmenu="return false;">
+    <div class="container">
+        <div class="page-header">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1>💻 Full Stack Development Assessment</h1>
+
+            </div>
+            <p class="page-subtitle">Test your full stack development knowledge (15 Questions)</p>
+            <div class="timer-display">
+                <div class="timer-label">Time Remaining</div>
+                <span id="timer">18:00</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 66%;"></div>
+            </div>
+            <p class="progress-text">Section 2 of 3</p>
+        </div>
+        <div id="quiz-container">
+            <div class="question"><h3>1. In React, which hook is used for side-effects?</h3>
+                <label><input type="radio" name="ct1" value="useState"> useState</label>
+                <label><input type="radio" name="ct1" value="useEffect"> useEffect</label>
+                <label><input type="radio" name="ct1" value="useContext"> useContext</label>
+                <label><input type="radio" name="ct1" value="useReducer"> useReducer</label>
+            </div>
+            <div class="question"><h3>2. Which HTTP status code indicates "Unauthorized"?</h3>
+                <label><input type="radio" name="ct2" value="200"> 200</label>
+                <label><input type="radio" name="ct2" value="301"> 301</label>
+                <label><input type="radio" name="ct2" value="401"> 401</label>
+                <label><input type="radio" name="ct2" value="404"> 404</label>
+            </div>
+            <div class="question"><h3>3. MongoDB is best classified as:</h3>
+                <label><input type="radio" name="ct3" value="Relational DB"> Relational DB</label>
+                <label><input type="radio" name="ct3" value="Document Store"> Document Store</label>
+                <label><input type="radio" name="ct3" value="Key-Value Store"> Key-Value Store</label>
+                <label><input type="radio" name="ct3" value="Graph DB"> Graph DB</label>
+            </div>
+            <div class="question"><h3>4. Which Node.js module is used for file system operations?</h3>
+                <label><input type="radio" name="ct4" value="fs"> fs</label>
+                <label><input type="radio" name="ct4" value="http"> http</label>
+                <label><input type="radio" name="ct4" value="os"> os</label>
+                <label><input type="radio" name="ct4" value="path"> path</label>
+            </div>
+            <div class="question"><h3>5. SQL query to select unique values:</h3>
+                <label><input type="radio" name="ct5" value="SELECT DISTINCT"> SELECT DISTINCT</label>
+                <label><input type="radio" name="ct5" value="SELECT UNIQUE"> SELECT UNIQUE</label>
+                <label><input type="radio" name="ct5" value="SELECT ONLY"> SELECT ONLY</label>
+                <label><input type="radio" name="ct5" value="SELECT DIFFERENT"> SELECT DIFFERENT</label>
+            </div>
+            <div class="question"><h3>6. Which of the following is NOT a valid HTTP method?</h3>
+                <label><input type="radio" name="ct6" value="GET"> GET</label>
+                <label><input type="radio" name="ct6" value="POST"> POST</label>
+                <label><input type="radio" name="ct6" value="PUSH"> PUSH</label>
+                <label><input type="radio" name="ct6" value="DELETE"> DELETE</label>
+            </div>
+            <div class="question"><h3>7. Express.js is primarily used for:</h3>
+                <label><input type="radio" name="ct7" value="Frontend templating"> Frontend templating</label>
+                <label><input type="radio" name="ct7" value="REST API and backend routing"> REST API and backend routing</label>
+                <label><input type="radio" name="ct7" value="Data storage"> Data storage</label>
+                <label><input type="radio" name="ct7" value="Testing"> Testing</label>
+            </div>
+            <div class="question"><h3>8. What is the default port of MongoDB?</h3>
+                <label><input type="radio" name="ct8" value="1521"> 1521</label>
+                <label><input type="radio" name="ct8" value="27017"> 27017</label>
+                <label><input type="radio" name="ct8" value="8080"> 8080</label>
+                <label><input type="radio" name="ct8" value="1433"> 1433</label>
+            </div>
+            <div class="question"><h3>9. Which CSS property controls stacking order of elements?</h3>
+                <label><input type="radio" name="ct9" value="z-index"> z-index</label>
+                <label><input type="radio" name="ct9" value="position"> position</label>
+                <label><input type="radio" name="ct9" value="float"> float</label>
+                <label><input type="radio" name="ct9" value="display"> display</label>
+            </div>
+            <div class="question"><h3>10. JWT is commonly used for:</h3>
+                <label><input type="radio" name="ct10" value="Authorization"> Authorization</label>
+                <label><input type="radio" name="ct10" value="Data storage"> Data storage</label>
+                <label><input type="radio" name="ct10" value="Session management"> Session management</label>
+                <label><input type="radio" name="ct10" value="a & c"> a & c</label>
+            </div>
+            <div class="question"><h3>11. Which command initializes a Node.js project?</h3>
+                <label><input type="radio" name="ct11" value="node init"> node init</label>
+                <label><input type="radio" name="ct11" value="npm start"> npm start</label>
+                <label><input type="radio" name="ct11" value="npm init"> npm init</label>
+                <label><input type="radio" name="ct11" value="create-react-app"> create-react-app</label>
+            </div>
+            <div class="question"><h3>12. What is a foreign key in SQL?</h3>
+                <label><input type="radio" name="ct12" value="Unique key"> Unique key</label>
+                <label><input type="radio" name="ct12" value="Key referencing another table's primary key"> Key referencing another table's primary key</label>
+                <label><input type="radio" name="ct12" value="Auto-generated key"> Auto-generated key</label>
+                <label><input type="radio" name="ct12" value="Composite key"> Composite key</label>
+            </div>
+            <div class="question"><h3>13. Which React concept helps avoid prop-drilling?</h3>
+                <label><input type="radio" name="ct13" value="Redux"> Redux</label>
+                <label><input type="radio" name="ct13" value="useState"> useState</label>
+                <label><input type="radio" name="ct13" value="Context API"> Context API</label>
+                <label><input type="radio" name="ct13" value="Hooks"> Hooks</label>
+            </div>
+            <div class="question"><h3>14. Which one is a frontend JavaScript framework?</h3>
+                <label><input type="radio" name="ct14" value="Spring Boot"> Spring Boot</label>
+                <label><input type="radio" name="ct14" value="Angular"> Angular</label>
+                <label><input type="radio" name="ct14" value="Flask"> Flask</label>
+                <label><input type="radio" name="ct14" value="Django"> Django</label>
+            </div>
+            <div class="question"><h3>15. REST API should be:</h3>
+                <label><input type="radio" name="ct15" value="Stateful"> Stateful</label>
+                <label><input type="radio" name="ct15" value="Stateless"> Stateless</label>
+                <label><input type="radio" name="ct15" value="Dependent on session"> Dependent on session</label>
+                <label><input type="radio" name="ct15" value="File-based"> File-based</label>
+            </div>
+        </div>
+        <div class="navigation-section">
+            <button onclick="saveAndNext('coding-theory')" class="next-btn">🚀 Continue to Logic & Reasoning</button>
+        </div>
+    </div>
+    {% csrf_token %}
+    <script src="{% static 'exam-guard.js' %}"></script>
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

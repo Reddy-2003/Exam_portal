@@ -1,0 +1,857 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Programming Challenge - Assignment Platform</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Calibri', Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      background: linear-gradient(135deg, #6f42c1 0%, #8e44ad 100%);
+    }
+    .timer-display {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 8px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+    .timer-display #timer {
+      background: linear-gradient(135deg, #6f42c1 0%, #8e44ad 100%);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 12px;
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 2px;
+      min-width: 140px;
+      text-align: center;
+      display: block;
+    }
+    .sidebar {
+      width: 80px;
+      background: #6f42c1;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+    }
+    .sidebar button {
+      background: #8e44ad;
+      border: none;
+      color: white;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 50%;
+      font-weight: bold;
+      cursor: pointer;
+      width: 50px;
+      height: 50px;
+      transition: background 0.3s;
+    }
+    .sidebar button:hover {
+      background: #9b59b6;
+    }
+    .sidebar button.active {
+      background: #9b59b6;
+    }
+    .main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+    .problem-box, .editor-box {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
+    }
+    .problem-box h2 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+    textarea#editor {
+      width: 100%;
+      height: 300px;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      background: #1e1e1e;
+      color: #f8f8f2;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      resize: vertical;
+      tab-size: 4;
+      white-space: pre;
+      overflow-wrap: normal;
+      overflow-x: auto;
+    }
+    .actions {
+      margin-top: 15px;
+    }
+    .actions button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 5px;
+      margin-right: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .actions .run {
+      background: #6f42c1;
+      color: white;
+    }
+    .actions .submit {
+      background: #8e44ad;
+      color: white;
+    }
+    .output {
+      margin-top: 15px;
+      padding: 10px;
+      background: #ecf0f1;
+      border-radius: 5px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 14px;
+      min-height: 100px;
+    }
+    #score-box {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .error {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+    .success {
+      color: #27ae60;
+      font-weight: bold;
+    }
+    .test-result {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border-left: 4px solid;
+    }
+    .test-passed {
+      background: #d4edda;
+      border-color: #28a745;
+      color: #155724;
+    }
+    .test-failed {
+      background: #f8d7da;
+      border-color: #dc3545;
+      color: #721c24;
+    }
+    .test-error {
+      background: #fff3cd;
+      border-color: #ffc107;
+      color: #856404;
+    }
+    .test-details {
+      font-family: monospace;
+      font-size: 12px;
+      margin-top: 5px;
+      padding: 5px;
+      background: rgba(0,0,0,0.05);
+      border-radius: 3px;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .badge-accepted { background: #28a745; color: white; }
+    .badge-partial { background: #ffc107; color: #212529; }
+    .badge-failed { background: #dc3545; color: white; }
+    .badge-error { background: #6c757d; color: white; }
+    .finish-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+      transition: all 0.3s ease;
+    }
+    .finish-btn:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="timer-display">
+    <span id="timer">60:00</span>
+  </div>
+
+  <div class="sidebar">
+    <button onclick="loadProblem('leap')" id="btn-leap">1</button>
+    <button onclick="loadProblem('nextprime')" id="btn-nextprime">2</button>
+    <button onclick="loadProblem('hcf')" id="btn-hcf">3</button>
+    <button onclick="loadProblem('median')" id="btn-median">4</button>
+  </div>
+
+  <div class="main">
+    <div class="problem-box" id="problem-box">
+      <h2>Select a Problem</h2>
+      <p>Click a number on the left to load the question.</p>
+    </div>
+
+    <div class="editor-box">
+      <h2>Python Code Editor</h2>
+      <textarea id="editor" placeholder="# Write your Python code here..."></textarea>
+
+      <div class="actions">
+        <button class="run" onclick="runCode()">Run</button>
+        <button class="submit" onclick="submitCode()">Submit</button>
+      </div>
+
+      <div class="output" id="output">Output will appear here...</div>
+      <div id="score-box"></div>
+      <div id="test-results"></div>
+    </div>
+  </div>
+
+  <button class="finish-btn" onclick="finishAssignment()">🏆 Finish Assignment</button>
+
+  {% csrf_token %}
+  <script src="{% static 'exam-guard.js' %}"></script>
+  <script>
+    let currentProblem = null;
+    let lastResult = "";
+    let lastScore = 0;
+    let timeLeft = 60 * 60; // 1 hour
+
+    const problems = {
+      leap: `
+<h2>Problem 1: Leap Year Check (10 marks)</h2>
+<p>Write a program to check if a given year is a leap year or not.</p>
+<p><strong>Input:</strong> A single integer representing the year</p>
+<p><strong>Output:</strong> "Yes" if leap year, "No" otherwise</p>
+<p><strong>🧪 Test Cases</strong></p>
+<p><strong>Test Case 1</strong><br>
+Input: 2020<br>
+Output: Yes<br>
+Explanation: 2020 is divisible by 4 and not by 100, so it's a leap year.</p>
+<p><strong>Test Case 2</strong><br>
+Input: 1900<br>
+Output: No<br>
+Explanation: 1900 is divisible by 100 but not by 400, so it's not a leap year.</p>
+<!--<p><strong>Test Case 3</strong><br>
+Input: 2000<br>
+Output: Yes<br>
+Explanation: 2000 is divisible by 400, so it's a leap year.</p>
+<p><strong>Test Case 4</strong><br>
+Input: 1700<br>
+Output: No<br>
+Explanation: 1700 is divisible by 100 but not by 400, so it's not a leap year.</p>
+<p><strong>Test Case 5</strong><br>
+Input: 2024<br>
+Output: Yes<br>
+Explanation: 2024 is divisible by 4 and not by 100, so it's a leap year.</p>
+-->
+      `,
+      nextprime: `
+<h2>Problem 2: Next Prime Number (20 marks)</h2>
+<p>In a number puzzle game, you are standing on tile N. The rules say you can only move to the next prime-numbered tile. Write a program that tells you the number of the tile you should move to next.</p>
+<p><strong>Input:</strong> A single integer N</p>
+<p><strong>Output:</strong> The next prime number after N</p>
+<p><strong>🧪 Test Cases</strong></p>
+<p><strong>Test Case 1</strong><br>
+Input: N = 14<br>
+Output: 17<br>
+Explanation: 15 and 16 are not prime, the next prime is 17.</p>
+<p><strong>Test Case 2</strong><br>
+Input: N = 29<br>
+Output: 31<br>
+Explanation: 30 is not prime, next prime is 31.</p>
+<!--<p><strong>Test Case 3</strong><br>
+Input: N = 20<br>
+Output: 23<br>
+Explanation: 21 and 22 are not prime, next prime is 23.</p>
+
+<p><strong>Test Case 4</strong><br>
+Input: N = 7<br>
+Output: 11<br>
+Explanation: 8, 9, 10 are not prime, next prime is 11.</p>
+<p><strong>Test Case 5</strong><br>
+Input: N = 97<br>
+Output: 101<br>
+Explanation: 98, 99, 100 are not prime, next prime is 101.</p>
+-->
+      `,
+      hcf: `
+<h2>Problem 3: HCF Calculator (20 marks)</h2>
+<p>A gardener wants to plant two types of flowers in rows such that each row has the same number of flowers and there are no leftovers. Given the number of flowers of each type, write a program to find the maximum number of flowers per row (HCF).</p>
+<p><strong>Input:</strong> Two positive integers A and B on separate lines</p>
+<p><strong>Output:</strong> A single integer representing the HCF of A and B</p>
+<p><strong>🧪 Test Cases</strong></p>
+<p><strong>Test Case 1</strong><br>
+Input: A = 12, B = 18<br>
+Output: 6<br>
+Explanation: Divisors of 12 → {1,2,3,4,6,12}, Divisors of 18 → {1,2,3,6,9,18}. Common largest = 6.</p>
+<p><strong>Test Case 4</strong><br>
+Input: A = 60, B = 48<br>
+Output: 12<br>
+Explanation: Common factors are {1,2,3,4,6,12}, largest = 12.</p>
+<!--
+<p><strong>Test Case 2</strong><br>
+Input: A = 15, B = 25<br>
+Output: 5<br>
+Explanation: Highest common factor is 5.</p>
+<p><strong>Test Case 3</strong><br>
+Input: A = 7, B = 13<br>
+Output: 1<br>
+Explanation: Since both are prime, HCF = 1.</p>
+
+<p><strong>Test Case 5</strong><br>
+Input: A = 100, B = 80<br>
+Output: 20<br>
+Explanation: Highest number dividing both is 20.</p>-->
+      `,
+      median: `
+<h2>Problem 4: Median of Two Arrays (50 marks)</h2>
+<p>Two analysts are reviewing sales data from two different stores. Each store provides a list of daily sales numbers. They want to combine the sales data and find the median sales number to understand the typical daily sale. Write a program that merges the two lists in ascending order and calculates the median.</p>
+<p><strong>Input:</strong> Two lines, each containing space-separated integers representing the arrays</p>
+<p><strong>Output:</strong> The median of the merged array (as integer if odd length, as float if even length)</p>
+<p><strong>🧪 Test Cases</strong></p>
+<p><strong>Test Case 1</strong><br>
+Input:<br>
+list1 = [1, 3, 5]<br>
+list2 = [2, 4, 6]<br>
+Output: 3.5<br>
+Explanation: Merged list = [1,2,3,4,5,6], median = (3+4)/2 = 3.5</p>
+<p><strong>Test Case 2</strong><br>
+Input:<br>
+list1 = [1, 2, 3]<br>
+list2 = [4, 5]<br>
+Output: 3<br>
+Explanation: Merged list = [1,2,3,4,5], median = 3</p>
+<!--<p><strong>Test Case 3</strong><br>
+Input:<br>
+list1 = [5, 2, 9]<br>
+list2 = [1, 7]<br>
+Output: 5<br>
+Explanation: Merged list = [1,2,5,7,9], median = 5</p>
+<p><strong>Test Case 4</strong><br>
+Input:<br>
+list1 = [1, 2]<br>
+list2 = [3, 4]<br>
+Output: 2.5<br>
+Explanation: Merged list = [1,2,3,4], median = (2+3)/2 = 2.5</p>
+<p><strong>Test Case 5</strong><br>
+Input:<br>
+list1 = [8, 12, 16]<br>
+list2 = [4, 20, 24]<br>
+Output: 14<br>
+Explanation: Merged list = [4,8,12,16,20,24], median = (12+16)/2 = 14</p>-->
+      `
+    };
+
+    // Timer function
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      document.getElementById('timer').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      if (timeLeft > 0) {
+        timeLeft--;
+        setTimeout(updateTimer, 1000);
+      } else {
+        alert('Time is up! Auto-submitting assignment...');
+        finishAssignment();
+      }
+    }
+
+    function loadProblem(problem) {
+      // Save current code before switching
+      if (currentProblem && document.getElementById("editor").value.trim()) {
+        const currentCode = document.getElementById("editor").value;
+        localStorage.setItem('code_' + currentProblem, currentCode);
+        console.log('DEBUG: Saved code for', currentProblem);
+      }
+      
+      // Switch to new problem
+      currentProblem = problem;
+      document.querySelectorAll('.sidebar button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('btn-' + problem).classList.add('active');
+      document.getElementById("problem-box").innerHTML = problems[problem];
+      
+      // Load saved code for this problem
+      const editor = document.getElementById("editor");
+      const savedCode = localStorage.getItem('code_' + problem);
+      if (savedCode) {
+        editor.value = savedCode;
+        console.log('DEBUG: Loaded saved code for', problem);
+      } else {
+        editor.value = '';
+      }
+      
+      // Load saved results for this problem
+      const savedResult = localStorage.getItem('result_' + problem);
+      const savedScore = localStorage.getItem('score_' + problem);
+      
+      if (savedResult && savedScore) {
+        lastResult = savedResult;
+        lastScore = parseInt(savedScore) || 0;
+        document.getElementById("output").innerHTML = `<span class="success">Previous result: ${savedResult}</span>`;
+        document.getElementById("score-box").innerHTML = `<span class="success">Previous score: ${savedScore} marks</span>`;
+      } else {
+        lastResult = "";
+        lastScore = 0;
+        document.getElementById("output").innerHTML = 'Click "Run" to test your code...';
+        document.getElementById("score-box").innerHTML = '';
+      }
+      
+      document.getElementById("test-results").innerHTML = '';
+      updateProblemStatus();
+    }
+
+    function runCode() {
+      const editor = document.getElementById("editor");
+      const code = editor.value;
+      const outputDiv = document.getElementById("output");
+      
+      console.log('DEBUG: runCode called');
+      console.log('DEBUG: currentProblem:', currentProblem);
+      console.log('DEBUG: code length:', code.length);
+      
+      if (!currentProblem) {
+        outputDiv.innerHTML = '<span class="error">❌ Please select a problem first!</span>';
+        return;
+      }
+      
+      if (!code || code.trim().length === 0) {
+        outputDiv.innerHTML = '<span class="error">❌ Please write some code first!</span>';
+        return;
+      }
+
+      outputDiv.innerHTML = '<span style="color: #3498db;">🔄 Running code...</span>';
+      
+      const csrfToken = getCSRFToken();
+      console.log('DEBUG: CSRF Token:', csrfToken);
+      
+      const requestData = {
+        problem: currentProblem,
+        code: code
+      };
+      console.log('DEBUG: Request data:', requestData);
+
+      fetch("/assignments/run-code/", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken
+        },
+        body: JSON.stringify(requestData)
+      })
+      .then(response => {
+        console.log('DEBUG: Response status:', response.status);
+        console.log('DEBUG: Response headers:', response.headers);
+        if (!response.ok) {
+          return response.text().then(text => {
+            console.log('DEBUG: Error response body:', text);
+            throw new Error(`HTTP ${response.status}: ${text}`);
+          });
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('DEBUG: Success response:', data);
+        displayTestResults(data);
+        lastResult = data.message || "No result";
+        lastScore = data.score || 0;
+        
+        // Save results for this problem
+        localStorage.setItem('result_' + currentProblem, lastResult);
+        localStorage.setItem('score_' + currentProblem, lastScore.toString());
+      })
+      .catch(error => {
+        console.error('DEBUG: Fetch error:', error);
+        outputDiv.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+        document.getElementById('score-box').innerHTML = '<span class="error">Score: 0 marks</span>';
+        document.getElementById('test-results').innerHTML = '';
+        lastResult = "Error";
+        lastScore = 0;
+      });
+    }
+
+    function submitCode() {
+      const code = document.getElementById("editor").value.trim();
+      
+      if (!currentProblem) {
+        alert("Please select a problem first!");
+        return;
+      }
+      
+      if (!code) {
+        alert("Please write some code first!");
+        return;
+      }
+
+      // Get student email from localStorage (set during login)
+      const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      const studentEmail = currentUser.email || localStorage.getItem('userEmail') || 'test@example.com';
+      
+      console.log('DEBUG: Student email:', studentEmail);
+      console.log('DEBUG: Current problem:', currentProblem);
+      console.log('DEBUG: Last score:', lastScore);
+
+      // First run the code to get results if not already done
+      if (!lastResult || lastScore === 0) {
+        alert("Please run your code first to see the results before submitting!");
+        return;
+      }
+
+      const submitData = {
+        problem: currentProblem,
+        code: code,
+        result: lastResult || "No result",
+        score: lastScore || 0,
+        student_email: studentEmail
+      };
+      
+      console.log('DEBUG: Submit data:', submitData);
+
+      fetch("/assignments/submit-code/", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCSRFToken()
+        },
+        body: JSON.stringify(submitData)
+      })
+      .then(response => {
+        console.log('DEBUG: Submit response status:', response.status);
+        if (!response.ok) {
+          return response.text().then(text => {
+            console.log('DEBUG: Error response:', text);
+            throw new Error(`HTTP ${response.status}: ${text}`);
+          });
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('DEBUG: Submit success response:', data);
+        const message = data.message || "Code submitted successfully!";
+        const score = data.score !== undefined ? data.score : lastScore;
+        
+        // Save individual problem score and mark as submitted
+        const allScores = JSON.parse(localStorage.getItem('allProgrammingScores') || '{}');
+        allScores[currentProblem] = score;
+        localStorage.setItem('allProgrammingScores', JSON.stringify(allScores));
+        
+        // Mark problem as submitted
+        localStorage.setItem('submitted_' + currentProblem, 'true');
+        updateProblemStatus();
+        
+        alert(`Completed ${currentProblem} successfully`);
+      })
+      .catch(error => {
+        console.error('DEBUG: Submit error:', error);
+        alert(`❌ Error: ${error.message}`);
+      });
+    }
+
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    // Get CSRF token from meta tag or cookie
+    function getCSRFToken() {
+      return getCookie('csrftoken') || document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+    }
+
+    function displayTestResults(data) {
+      const outputDiv = document.getElementById('output');
+      const scoreBox = document.getElementById('score-box');
+      const testResultsDiv = document.getElementById('test-results');
+      
+      let statusClass = '';
+      let statusBadge = '';
+      
+      switch(data.status) {
+        case 'accepted':
+          statusClass = 'success';
+          statusBadge = '<span class="status-badge badge-accepted">Accepted</span>';
+          break;
+        case 'partial':
+          statusClass = 'error';
+          statusBadge = '<span class="status-badge badge-partial">Partial</span>';
+          break;
+        case 'failed':
+          statusClass = 'error';
+          statusBadge = '<span class="status-badge badge-failed">Failed</span>';
+          break;
+        case 'compile_error':
+          statusClass = 'error';
+          statusBadge = '<span class="status-badge badge-error">Compile Error</span>';
+          break;
+        default:
+          statusClass = 'error';
+          statusBadge = '<span class="status-badge badge-error">Error</span>';
+      }
+      
+      outputDiv.innerHTML = `
+        <div style="margin-bottom: 15px;">
+          ${statusBadge}
+          <strong style="margin-left: 10px;">${data.message}</strong>
+        </div>
+      `;
+      
+      scoreBox.innerHTML = `
+        <span class="${statusClass}">
+          Score: ${data.score}/${data.total_score} marks 
+          (${data.passed_count || 0}/${data.total_count || 0} test cases passed)
+        </span>
+      `;
+      
+      if (data.test_results && data.test_results.length > 0) {
+        let testHtml = '<h4 style="margin-top: 20px; color: #2c3e50;">Test Results:</h4>';
+        
+        data.test_results.forEach(test => {
+          let testClass = '';
+          let statusIcon = '';
+          
+          switch(test.status) {
+            case 'passed':
+              testClass = 'test-passed';
+              statusIcon = '✅';
+              break;
+            case 'wrong_answer':
+              testClass = 'test-failed';
+              statusIcon = '❌';
+              break;
+            case 'runtime_error':
+              testClass = 'test-error';
+              statusIcon = '💥';
+              break;
+            case 'timeout':
+              testClass = 'test-error';
+              statusIcon = '⏰';
+              break;
+            default:
+              testClass = 'test-error';
+              statusIcon = '⚠️';
+          }
+          
+          testHtml += `
+            <div class="test-result ${testClass}">
+              <div>
+                ${statusIcon} <strong>${test.name}</strong>
+                <span style="float: right; font-size: 12px;">${test.execution_time}</span>
+              </div>
+              ${test.input !== 'Hidden' ? `
+                <div class="test-details">
+                  <div><strong>Input:</strong> ${test.input}</div>
+                  <div><strong>Expected:</strong> ${test.expected}</div>
+                  ${test.actual ? `<div><strong>Output:</strong> ${test.actual}</div>` : ''}
+                  ${test.error ? `<div><strong>Error:</strong> ${test.error}</div>` : ''}
+                </div>
+              ` : `
+                <div class="test-details">
+                  <div style="font-style: italic;">Hidden test case</div>
+                  ${test.error && test.error !== 'Wrong Answer' ? `<div><strong>Error:</strong> ${test.error}</div>` : ''}
+                </div>
+              `}
+            </div>
+          `;
+        });
+        
+        testResultsDiv.innerHTML = testHtml;
+      } else {
+        testResultsDiv.innerHTML = '';
+      }
+    }
+
+    function finishAssignment() {
+      if (confirm('Are you sure you want to finish and submit your assignment? This action cannot be undone.')) {
+        // Calculate total programming score from all problems
+        const allSubmissions = JSON.parse(localStorage.getItem('allProgrammingScores') || '{}');
+        let totalProgrammingScore = 0;
+        
+        // Add current problem score if available
+        if (currentProblem && lastScore > 0) {
+          allSubmissions[currentProblem] = lastScore;
+          localStorage.setItem('allProgrammingScores', JSON.stringify(allSubmissions));
+        }
+        
+        // Calculate total score based on problem weights
+        const problemWeights = { leap: 10, nextprime: 20, hcf: 20, median: 50 };
+        for (const [problem, score] of Object.entries(allSubmissions)) {
+          totalProgrammingScore += score;
+        }
+        
+        const existingData = JSON.parse(localStorage.getItem('assignmentData') || '{}');
+        existingData['programming-task'] = {
+          code: document.getElementById('editor').value || '',
+          language: 'python',
+          score: { percentage: totalProgrammingScore },
+          allScores: allSubmissions,
+          timestamp: new Date().toISOString(),
+          completed: true
+        };
+        localStorage.setItem('assignmentData', JSON.stringify(existingData));
+        
+        submitToServer();
+      }
+    }
+    
+    async function submitToServer() {
+      const data = JSON.parse(localStorage.getItem('assignmentData') || '{}');
+      const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      const userEmail = currentUser.email || localStorage.getItem('userEmail') || 'test@example.com';
+      
+      console.log('DEBUG: Final submission data:', data);
+      
+      const submissionData = {
+        student: userEmail,
+        loginTime: localStorage.getItem('loginTime') || new Date().toISOString(),
+        submissionTime: new Date().toISOString(),
+        results: data
+      };
+      
+      try {
+        const response = await fetch('/assignments/submit/', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken()
+          },
+          body: JSON.stringify(submissionData)
+        });
+        
+        const result = await response.json();
+        console.log('DEBUG: Submission result:', result);
+        
+        if (result.success) {
+          // Clear assignment data
+          localStorage.removeItem('assignmentData');
+          localStorage.removeItem('allProgrammingScores');
+          localStorage.removeItem('lockedSections');
+          
+          // Clear all programming codes and results
+          ['leap', 'nextprime', 'hcf', 'median'].forEach(problem => {
+            localStorage.removeItem('code_' + problem);
+            localStorage.removeItem('result_' + problem);
+            localStorage.removeItem('score_' + problem);
+            localStorage.removeItem('submitted_' + problem);
+          });
+          
+          // Show result based on qualification status
+          const totalScore = result.total_score || 0;
+          const qualificationStatus = result.qualification_status;
+          
+          alert('Thank you for Participation');
+          
+          // Redirect to dashboard
+          setTimeout(() => {
+            window.location.href = '/dashboard/';
+          }, 2000);
+          
+        } else {
+          alert('❌ Error submitting assignment: ' + result.message);
+        }
+        
+      } catch (error) {
+        console.error('Submission error:', error);
+        alert('❌ Error submitting assignment. Please try again.');
+      }
+    }
+
+    // Force cache refresh
+    const timestamp = new Date().getTime();
+    console.log('Page loaded at:', timestamp);
+    
+    // Add problem status indicators
+    function updateProblemStatus() {
+      ['leap', 'nextprime', 'hcf', 'median'].forEach(problem => {
+        const btn = document.getElementById('btn-' + problem);
+        const isSubmitted = localStorage.getItem('submitted_' + problem) === 'true';
+        const hasCode = localStorage.getItem('code_' + problem);
+        
+        if (isSubmitted) {
+          btn.style.backgroundColor = '#28a745'; // Green for submitted
+          btn.title = 'Submitted';
+        } else if (hasCode) {
+          btn.style.backgroundColor = '#ffc107'; // Yellow for in progress
+          btn.title = 'In Progress';
+        } else {
+          btn.style.backgroundColor = '#8e44ad'; // Default purple
+          btn.title = 'Not Started';
+        }
+      });
+    }
+    
+    // Auto-save code while typing
+    document.addEventListener('DOMContentLoaded', function() {
+      const editor = document.getElementById('editor');
+      let saveTimeout;
+      
+      // Tab indentation for editor
+      editor.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          const start = this.selectionStart;
+          const end = this.selectionEnd;
+          this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+          this.selectionStart = this.selectionEnd = start + 4;
+        }
+      });
+      
+      editor.addEventListener('input', function() {
+        if (currentProblem) {
+          clearTimeout(saveTimeout);
+          saveTimeout = setTimeout(() => {
+            if (this.value.trim()) {
+              localStorage.setItem('code_' + currentProblem, this.value);
+              updateProblemStatus();
+            }
+          }, 1000); // Save after 1 second of no typing
+        }
+      });
+    });
+    
+    // Initialize
+    updateTimer();
+    loadProblem('leap');
+    updateProblemStatus();
+  </script>
+
+</body>
+</html>

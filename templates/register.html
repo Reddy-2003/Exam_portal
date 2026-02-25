@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Login / Register</title>
+    <link rel="stylesheet" href="{% static 'auth.css' %}">
+    <link rel="stylesheet" href="{% static 'register-styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="icon" href="{% static 'Assets/logo.png' %}">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+                <div class="logo-box">
+                    <img src="{% static 'Assets/logo.png' %}" alt="Company Logo" class="logo">
+                </div>
+                <p class="desc">
+                    Lakkshions IT Private Limited is a Hyderabad-based technology company
+                    specializing in Software as a Service (SaaS), AI solutions, IT
+                    consulting, and US staffing services. We partner with enterprises to
+                    deliver innovative, scalable, and cost-effective software solutions
+                    that drive real business results.
+                </p>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="right-panel">
+            <!-- Login/Register Box -->
+            <div class="auth-box" id="authBox">
+                <h2 id="formTitle">Login Form</h2>
+                <!--<div class="tab-switch">
+                    <button id="loginTab" class="active">Login</button>
+                    <button id="registerTab">Register</button>
+                </div>-->
+                <!-- Login Form --><!--
+<form id="loginForm" method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <input type="email" name="email" placeholder="Email Address" required>
+    <div class="password-container">
+        <input type="password" id="passwordInput" name="password" placeholder="Enter password" required minlength="8">
+        <button id="toggleBtn" type="button">👁</button>
+    </div>
+    <a href="#" class="forgot">Forgot password?</a>
+    <button type="submit" class="primary-btn">Login</button>
+    <p class="toggle-text">
+        Not a member? <a href="#" id="showRegisterLink">Register now</a>
+    </p>
+</form>
+-->
+
+<!-- Register Form 
+<form id="registerForm" method="post" action="{% url 'register' %}" style="display: none">
+    {% csrf_token %}-->
+    <!-- your fields here 
+    <button type="submit" class="primary-btn">Register</button>
+    <p class="toggle-text">
+        Already a member? <a href="#" id="showLoginLink">Login</a>
+    </p>
+</form>
+-->
+<!-- Login Form -->
+                <form id="loginForm">
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <div class="password-container">
+                        <input type="password" id="passwordInput" name="password" placeholder="Enter password" required minlength="8" pattern=".{8,}" title="Password must be at least 8 characters long">
+                        <button id="toggleBtn" type="button">👁</button>
+                    </div>
+                    <a href="#" class="forgot">Forgot password?</a>
+                    <button type="submit" class="primary-btn">Login</button>
+                    <p class="toggle-text">
+                        Not a member? <a href="#" id="showRegisterLink">Register now</a>
+                    </p>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" style="display: none">
+                    <input type="text" name="name" placeholder="Full Name" required>
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="tel" name="mobile" placeholder="Mobile Number" pattern="[0-9]{10}" maxlength="10" required>
+                    <input type="text" name="roll_number" placeholder="Roll Number" required>
+                    
+                    <div class="input-wrap">
+                        <input id="streamInput" name="stream" type="text" placeholder="Select Stream" readonly>
+                        <div id="streamDropdown" class="dropdown">
+                            <div class="item" onclick="selectStream('CSE')">CSE</div>
+                            <div class="item" onclick="selectStream('CSE(AI/ML)')">CSE(AI/ML)</div>
+                            <div class="item" onclick="selectStream('CSE(DS)')">CSE(DS)</div>
+                            <div class="item" onclick="selectStream('CSE(CS)')">CSE(CS)</div>
+                            <div class="item" onclick="selectStream('CSE(IOT)')">CSE(IOT)</div>
+                            <div class="item" onclick="selectStream('IT')">IT</div>
+                            <div class="item" onclick="selectStream('ECE')">ECE</div>
+                            <div class="item" onclick="selectStream('EEE')">EEE</div>
+                            <div class="item" onclick="selectStream('ME')">ME</div>
+                            <div class="item" onclick="selectStream('CIV')">CIV</div>
+                        </div>
+                    </div>
+                    
+
+                    
+                    <div class="input-wrap">
+                        <input id="collegeRegInput" name="college" type="text" placeholder="Select College" readonly>
+                        <div id="collegeRegDropdown" class="dropdown">
+                            <div class="item" onclick="selectCollege('A.V. College of Arts, Science & Commerce')">A.V. College of Arts, Science & Commerce</div>
+                            <div class="item" onclick="selectCollege('Aurora\'s Degree & PG College')">Aurora's Degree & PG College</div>
+                            <div class="item" onclick="selectCollege('Badruka College of Commerce & Arts')">Badruka College of Commerce & Arts</div>
+                            <div class="item" onclick="selectCollege('Chaitanya Bharathi Institute of Technology (CBIT)')">Chaitanya Bharathi Institute of Technology (CBIT)</div>
+                            <div class="item" onclick="selectCollege('G. Narayanamma Institute of Technology & Science (GNITS)')">G. Narayanamma Institute of Technology & Science (GNITS)</div>
+                            <div class="item" onclick="selectCollege('Gokaraju Rangaraju Institute of Engineering & Technology (GRIET)')">Gokaraju Rangaraju Institute of Engineering & Technology (GRIET)</div>
+                            <div class="item" onclick="selectCollege('IIMC Hyderabad (Indian Institute of Management & Commerce)')">IIMC Hyderabad (Indian Institute of Management & Commerce)</div>
+                            <div class="item" onclick="selectCollege('IIT Hyderabad')">IIT Hyderabad</div>
+                            <div class="item" onclick="selectCollege('IIIT Hyderabad')">IIIT Hyderabad</div>
+                            <div class="item" onclick="selectCollege('Institute of Aeronautical Engineering (IARE)')">Institute of Aeronautical Engineering (IARE)</div>
+                            <div class="item" onclick="selectCollege('JNTU Hyderabad (JNTUH)')">JNTU Hyderabad (JNTUH)</div>
+                            <div class="item" onclick="selectCollege('Mahatma Gandhi Institute of Technology (MGIT)')">Mahatma Gandhi Institute of Technology (MGIT)</div>
+                            <div class="item" onclick="selectCollege('Malla Reddy University / Malla Reddy Engineering College')">Malla Reddy University / Malla Reddy Engineering College</div>
+                            <div class="item" onclick="selectCollege('NIPER Hyderabad')">NIPER Hyderabad</div>
+                            <div class="item" onclick="selectCollege('Nizam College')">Nizam College</div>
+                            <div class="item" onclick="selectCollege('Osmania University')">Osmania University</div>
+                            <div class="item" onclick="selectCollege('St. Ann\'s College for Women')">St. Ann's College for Women</div>
+                            <div class="item" onclick="selectCollege('St. Francis College for Women')">St. Francis College for Women</div>
+                            <div class="item" onclick="selectCollege('University College of Engineering, OU')">University College of Engineering, OU</div>
+                            <div class="item" onclick="selectCollege('University of Hyderabad')">University of Hyderabad</div>
+                            <div class="item" onclick="selectCollege('Vardhaman College of Engineering')">Vardhaman College of Engineering</div>
+                            <div class="item" onclick="selectCollege('Others')">Others</div>
+                        </div>
+                    </div>
+                    
+                    <input type="text" name="skills" placeholder="Skills (e.g., Java, Python, React, etc.)" required>
+                    <input type="number" name="ssc_grade" placeholder="SSC CGPA (0-10)" step="0.01" min="0" max="10" required>
+                    <input type="number" name="intermediate_grade" placeholder="Inter CGPA (0-10)" step="0.01" min="0" max="10" required>
+                    <input type="number" name="current_semester_cgpa" placeholder="Current Semester CGPA (0-10)" step="0.01" min="0" max="10" required>
+                    
+                    <div class="password-container">
+                        <input type="password" id="registerPassword" name="password" placeholder="Create password" required minlength="8" pattern=".{8,}" title="Password must be at least 8 characters long">
+                        <button id="registerToggleBtn" type="button">👁</button>
+                    </div>
+                    <button type="submit" class="primary-btn">Register</button>
+                    <p class="toggle-text">
+                        Already a member? <a href="#" id="showLoginLink">Login</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% csrf_token %}
+    <script src="{% static 'auth.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+/* Additional professional styling for register form */
+
+/* Enhanced input fields for register form */
+input[type="text"],
+input[type="email"], 
+input[type="tel"],
+input[type="number"] {
+    padding: 16px 20px !important;
+    border: 2px solid #e5e7eb !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    color: #374151 !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    margin-top: 8px !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus, 
+input[type="number"]:focus {
+    outline: none !important;
+    border-color: #8b5cf6 !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Enhanced dropdown styling */
+.input-wrap {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-wrap input {
+    cursor: pointer;
+    padding: 16px 20px !important;
+    border: 2px solid #e5e7eb !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    color: #374151 !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    width: 100%;
+}
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    padding: 8px 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+    z-index: 1000;
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 2px solid #e5e7eb !important;
+    margin-top: 4px;
+}
+
+.dropdown .item {
+    padding: 12px 16px;
+    color: #374151 !important;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    margin: 2px 8px;
+}
+
+.dropdown .item:hover,
+.dropdown .item.active {
+    background: rgba(139, 92, 246, 0.1) !important;
+    color: #8b5cf6 !important;
+    transform: translateX(4px);
+}
+
+/* Enhanced password container */
+.password-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.password-container input {
+    width: 100% !important;
+    padding: 16px 50px 16px 20px !important;
+    border: 2px solid #e5e7eb !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    color: #374151 !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.password-container input:focus {
+    outline: none !important;
+    border-color: #8b5cf6 !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+    transform: translateY(-1px) !important;
+}
+
+.password-container button {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+    color: #8b5cf6;
+    padding: 0;
+    margin: 0;
+}
+
+/* Form title styling */
+#formTitle {
+    font-size: 28px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: -0.5px;
+}

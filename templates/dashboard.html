@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Dashboard</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>🎯 Interview Progress Tracker</h1>
+            <p class="welcome-text">Welcome, <span id="studentEmail"></span></p>
+        </div>
+
+        <div class="tracker-container">
+            <div class="stage-tracker">
+                <div class="stage" id="stage1">
+                    <div class="stage-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="stage-content">
+                        <h3>Assignment</h3>
+                        <p class="stage-status" id="assignmentStatus">Pending</p>
+                    </div>
+                    <div class="stage-connector"></div>
+                </div>
+
+                <div class="stage" id="stage2">
+                    <div class="stage-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stage-content">
+                        <h3>Group Discussion</h3>
+                        <p class="stage-status" id="gdStatus">Pending</p>
+                    </div>
+                    <div class="stage-connector"></div>
+                </div>
+
+                <div class="stage" id="stage3">
+                    <div class="stage-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="stage-content">
+                        <h3>Technical Round</h3>
+                        <p class="stage-status" id="technicalStatus">Pending</p>
+                    </div>
+                    <div class="stage-connector"></div>
+                </div>
+
+                <div class="stage" id="stage4">
+                    <div class="stage-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="stage-content">
+                        <h3>HR Round</h3>
+                        <p class="stage-status" id="hrStatus">Pending</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-message" id="progressMessage">
+                <i class="fas fa-info-circle"></i>
+                <span id="messageText">Ready to begin your interview process</span>
+            </div>
+
+            <div class="action-section">
+                <button id="startAssignmentBtn" class="start-btn" onclick="window.location.href='/homepage/'">
+                    <i class="fas fa-play"></i>
+                    Start Assignment
+                </button>
+                <div class="timer-info" id="timerInfo">
+                    <i class="fas fa-clock"></i>
+                    <span>Checking exam status...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% csrf_token %}
+    <script src="{% static 'dashboard.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI/ML Assessment - Assignment Platform</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body oncopy="return false;" onpaste="return false;" oncut="return false;" oncontextmenu="return false;">
+    <div class="container">
+        <div class="page-header">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1>AI/ML Assessment</h1>
+
+            </div>
+            <p class="page-subtitle">Test your AI/ML knowledge (15 Questions)</p>
+            <div class="timer-display">
+                <div class="timer-label">Time Remaining</div>
+                <span id="timer">18:00</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 33%;"></div>
+            </div>
+            <p class="progress-text">Section 1 of 3</p>
+        </div>
+        <div id="quiz-container">
+            <div class="question"><h3>1. Which algorithm is most suitable for text classification?</h3>
+                <label><input type="radio" name="q1" value="K-Means"> K-Means</label>
+                <label><input type="radio" name="q1" value="Naive Bayes"> Naive Bayes</label>
+                <label><input type="radio" name="q1" value="Apriori"> Apriori</label>
+                <label><input type="radio" name="q1" value="KNN"> KNN</label>
+            </div>
+            <div class="question"><h3>2. In a decision tree, what does information gain measure?</h3>
+                <label><input type="radio" name="q2" value="Distance between clusters"> Distance between clusters</label>
+                <label><input type="radio" name="q2" value="Reduction in entropy"> Reduction in entropy</label>
+                <label><input type="radio" name="q2" value="Training time"> Training time</label>
+                <label><input type="radio" name="q2" value="Data normalization"> Data normalization</label>
+            </div>
+            <div class="question"><h3>3. What is the main drawback of high-dimensional datasets?</h3>
+                <label><input type="radio" name="q3" value="Low variance"> Low variance</label>
+                <label><input type="radio" name="q3" value="Curse of dimensionality"> Curse of dimensionality</label>
+                <label><input type="radio" name="q3" value="Over-simplification"> Over-simplification</label>
+                <label><input type="radio" name="q3" value="Better generalization"> Better generalization</label>
+            </div>
+            <div class="question"><h3>4. Which evaluation metric is best for imbalanced datasets?</h3>
+                <label><input type="radio" name="q4" value="Accuracy"> Accuracy</label>
+                <label><input type="radio" name="q4" value="Precision"> Precision</label>
+                <label><input type="radio" name="q4" value="Recall"> Recall</label>
+                <label><input type="radio" name="q4" value="F1-score"> F1-score</label>
+            </div>
+            <div class="question"><h3>5. Which technique helps in reducing overfitting in deep learning?</h3>
+                <label><input type="radio" name="q5" value="Dropout"> Dropout</label>
+                <label><input type="radio" name="q5" value="Feature scaling"> Feature scaling</label>
+                <label><input type="radio" name="q5" value="Data augmentation"> Data augmentation</label>
+                <label><input type="radio" name="q5" value="Both a & c"> Both a & c</label>
+            </div>
+            <div class="question"><h3>6. Reinforcement Learning agent's feedback is called:</h3>
+                <label><input type="radio" name="q6" value="Reward"> Reward</label>
+                <label><input type="radio" name="q6" value="Feature"> Feature</label>
+                <label><input type="radio" name="q6" value="Entropy"> Entropy</label>
+                <label><input type="radio" name="q6" value="Loss"> Loss</label>
+            </div>
+            <div class="question"><h3>7. What is the purpose of Gradient Clipping in training deep networks?</h3>
+                <label><input type="radio" name="q7" value="Prevent exploding gradients"> Prevent exploding gradients</label>
+                <label><input type="radio" name="q7" value="Reduce underfitting"> Reduce underfitting</label>
+                <label><input type="radio" name="q7" value="Increase dataset size"> Increase dataset size</label>
+                <label><input type="radio" name="q7" value="Normalize features"> Normalize features</label>
+            </div>
+            <div class="question"><h3>8. Which clustering algorithm can handle non-linear cluster boundaries?</h3>
+                <label><input type="radio" name="q8" value="K-Means"> K-Means</label>
+                <label><input type="radio" name="q8" value="DBSCAN"> DBSCAN</label>
+                <label><input type="radio" name="q8" value="Hierarchical"> Hierarchical</label>
+                <label><input type="radio" name="q8" value="PCA"> PCA</label>
+            </div>
+            <div class="question"><h3>9. Which type of neural network is best suited for sequential data like text?</h3>
+                <label><input type="radio" name="q9" value="CNN"> CNN</label>
+                <label><input type="radio" name="q9" value="RNN"> RNN</label>
+                <label><input type="radio" name="q9" value="GAN"> GAN</label>
+                <label><input type="radio" name="q9" value="DBN"> DBN</label>
+            </div>
+            <div class="question"><h3>10. Principal Component Analysis (PCA) is used for:</h3>
+                <label><input type="radio" name="q10" value="Feature scaling"> Feature scaling</label>
+                <label><input type="radio" name="q10" value="Dimensionality reduction"> Dimensionality reduction</label>
+                <label><input type="radio" name="q10" value="Outlier detection"> Outlier detection</label>
+                <label><input type="radio" name="q10" value="Model selection"> Model selection</label>
+            </div>
+            <div class="question"><h3>11. In Random Forests, each tree is trained on:</h3>
+                <label><input type="radio" name="q11" value="Same data sample"> Same data sample</label>
+                <label><input type="radio" name="q11" value="Bootstrapped data sample"> Bootstrapped data sample</label>
+                <label><input type="radio" name="q11" value="Full dataset with same features"> Full dataset with same features</label>
+                <label><input type="radio" name="q11" value="Randomly dropped outputs"> Randomly dropped outputs</label>
+            </div>
+            <div class="question"><h3>12. L1 regularization tends to produce:</h3>
+                <label><input type="radio" name="q12" value="Sparse models"> Sparse models</label>
+                <label><input type="radio" name="q12" value="Dense models"> Dense models</label>
+                <label><input type="radio" name="q12" value="Overfitted models"> Overfitted models</label>
+                <label><input type="radio" name="q12" value="None"> None</label>
+            </div>
+            <div class="question"><h3>13. Which algorithm is an example of ensemble learning?</h3>
+                <label><input type="radio" name="q13" value="Decision Tree"> Decision Tree</label>
+                <label><input type="radio" name="q13" value="Random Forest"> Random Forest</label>
+                <label><input type="radio" name="q13" value="Logistic Regression"> Logistic Regression</label>
+                <label><input type="radio" name="q13" value="Naive Bayes"> Naive Bayes</label>
+            </div>
+            <div class="question"><h3>14. What does ROC curve plot?</h3>
+                <label><input type="radio" name="q14" value="Precision vs Recall"> Precision vs Recall</label>
+                <label><input type="radio" name="q14" value="True Positive Rate vs False Positive Rate"> True Positive Rate vs False Positive Rate</label>
+                <label><input type="radio" name="q14" value="Loss vs Accuracy"> Loss vs Accuracy</label>
+                <label><input type="radio" name="q14" value="Training vs Validation error"> Training vs Validation error</label>
+            </div>
+            <div class="question"><h3>15. Which ML concept does Bagging help to reduce?</h3>
+                <label><input type="radio" name="q15" value="Variance"> Variance</label>
+                <label><input type="radio" name="q15" value="Bias"> Bias</label>
+                <label><input type="radio" name="q15" value="Noise"> Noise</label>
+                <label><input type="radio" name="q15" value="Over-generalization"> Over-generalization</label>
+            </div>
+        </div>
+        <div class="navigation-section">
+            <button onclick="saveAndNext('homepage')" class="next-btn">🚀 Continue to Full Stack Development</button>
+        </div>
+    </div>
+    {% csrf_token %}
+    <script src="{% static 'exam-guard.js' %}"></script>
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>
